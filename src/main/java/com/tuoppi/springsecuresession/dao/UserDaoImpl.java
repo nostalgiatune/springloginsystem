@@ -3,6 +3,7 @@ package com.tuoppi.springsecuresession.dao;
 import com.tuoppi.springsecuresession.user.UserProfile;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;

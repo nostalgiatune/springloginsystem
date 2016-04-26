@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Import;
 @Import({
     PersistenceContext.class,
     SecurityConfig.class,
+    MethodSecurityConfig.class
 })
 @ComponentScan(basePackageClasses = {
     UserDao.class,

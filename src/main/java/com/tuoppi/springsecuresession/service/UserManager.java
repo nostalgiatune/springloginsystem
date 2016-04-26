@@ -4,6 +4,7 @@ import com.tuoppi.springsecuresession.dao.UserDao;
 import com.tuoppi.springsecuresession.user.UserProfile;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, transactionManager = "transactionManager")
+@RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
 public class UserManager {
     
     @Autowired
