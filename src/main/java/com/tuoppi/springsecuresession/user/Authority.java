@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
-@Table(name = "authority", schema = "users")
+@Table(name = "authority")
 public class Authority implements GrantedAuthority {
     
     @Id @GeneratedValue(strategy = GenerationType.AUTO)

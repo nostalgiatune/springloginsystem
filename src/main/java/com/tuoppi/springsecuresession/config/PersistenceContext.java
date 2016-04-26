@@ -5,8 +5,11 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -19,6 +22,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
+@PropertySource("classpath:derby.properties")
 public class PersistenceContext {
     
     @Autowired
@@ -36,12 +40,22 @@ public class PersistenceContext {
         return emfb;
     }
     
-    @Bean
-    public DataSource dataSource() {
+    @Bean @Profile("dev")
+    public DataSource embeddedDataSource() {
         
         return new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.DERBY)
                 .build();
+    }
+    
+    @Bean @Profile("prod")
+    public DataSource driverManagerDataSource() {
+        DriverManagerDataSource ds = new DriverManagerDataSource();
+        ds.setDriverClassName(env.getRequiredProperty("driver"));
+        ds.setUrl(env.getRequiredProperty("url"));
+        ds.setUsername(env.getRequiredProperty("username"));
+        ds.setPassword(env.getRequiredProperty("password"));
+        return ds;
     }
     
     @Bean

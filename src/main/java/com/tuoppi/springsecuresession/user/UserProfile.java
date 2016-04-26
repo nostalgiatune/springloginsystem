@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "userprofile", schema = "users")
+@Table(name = "userprofile")
 public class UserProfile implements Serializable {
     
     @NotNull
