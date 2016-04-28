@@ -2,6 +2,7 @@ package com.tuoppi.springsecuresession.controller;
 
 import com.tuoppi.springsecuresession.service.UserManager;
 import com.tuoppi.springsecuresession.user.UserProfile;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -36,6 +37,13 @@ public class UserProfileController {
         
         userManager.update(profile);
         return "redirect:/";
+    }
+    
+    @RequestMapping(value = "/all", method = GET)
+    public String all(Model model) {
+        List<UserProfile> profiles = userManager.findAll();
+        model.addAttribute("profiles", profiles);
+        return "all";
     }
     
 }

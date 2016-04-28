@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, transactionManager = "transactionManager")
-@RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
 public class UserManager {
     
     @Autowired
@@ -32,7 +31,12 @@ public class UserManager {
     }
     
     public List<UserProfile> findAll() {
-        return users.findAll();
+        List<UserProfile> profiles = users.findAll();
+        
+        // Fetch proxied auhtorities before closing session
+        profiles.forEach((UserProfile profile) -> profile.getAuthorities().size());
+        
+        return profiles;
     }
     
     public UserProfile add(UserProfile user) throws RuntimeException {
@@ -49,6 +53,11 @@ public class UserManager {
     
     public void delete(UserProfile user) {
         users.delete(user);
+    }
+    
+    @RolesAllowed({"ROLE_ADMIN"})
+    public String adminApi() {
+        return "ADMIN authorized";
     }
     
 }

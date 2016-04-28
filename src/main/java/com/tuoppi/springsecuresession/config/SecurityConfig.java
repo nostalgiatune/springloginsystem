@@ -20,20 +20,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @EnableWebSecurity
 @Import({
     PersistenceContext.class,
+    MethodSecurityConfig.class
 })
 @ComponentScan(basePackageClasses = {
-    UserService.class,
-    UserManager.class,
-    UserDao.class
+    UserService.class
 })
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Autowired
     private UserDetailsService userAuthenticationService;
     
+    @Bean // Why I need to declare this, shoudln't Spring produce it automatically?
     @Override
-    @Bean
-    protected AuthenticationManager authenticationManager() throws Exception {
+    public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
 
@@ -49,9 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/init").permitAll()
                 .antMatchers("/users").permitAll()
                 .antMatchers("/register").permitAll()
-                .antMatchers("/admin").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/**").authenticated()
-                .anyRequest().denyAll();
+                .antMatchers("/admin").permitAll() // Test method level security
+                .antMatchers("/**").authenticated();
     }
     
 }

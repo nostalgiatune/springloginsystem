@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>TODO supply a title</title>
+    </head>
+    <body>
+        <table>
+            <tr th:each="profile : ${profiles}">
+                <td th:text="${profile.username}" />
+                <td th:text="${profile.password}" />
+                <td th:text="${profile.personalData}" />
+                <td>
+                    <table>
+                        <tr th:each="authority : ${profile.authorities}">
+                            <td th:text="${authority.id}" />
+                            <td th:text="${authority.userRole}" />
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

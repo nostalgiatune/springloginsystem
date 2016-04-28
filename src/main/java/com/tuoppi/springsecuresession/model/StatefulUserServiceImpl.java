@@ -36,7 +36,7 @@ public class StatefulUserServiceImpl implements StatefulUserService {
 
     @Override
     public String getActiveUserPersonalData() {
-        return users.update(activeUser).getPersonalData();
+        return ((UserProfile)users.find(activeUser.getUsername())).getPersonalData();
     }
     
 }

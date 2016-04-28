@@ -50,7 +50,7 @@ public class RegisterController {
     
     @RequestMapping(value = "/admin", method = GET)
     public @ResponseBody String admin() {
-        return "This page requires ROLE_ADMIN authorization";
+        return userManager.adminApi();
     }
     
     @RequestMapping(value = "/session", method = GET)

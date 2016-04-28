@@ -1,7 +1,7 @@
 package com.tuoppi.springsecuresession.config;
 
 import com.tuoppi.springsecuresession.dao.UserDao;
-import com.tuoppi.springsecuresession.model.StatefulUserServiceImpl;
+import com.tuoppi.springsecuresession.model.StatefulUserService;
 import com.tuoppi.springsecuresession.service.UserManager;
 import com.tuoppi.springsecuresession.user.UserService;
 import org.springframework.context.annotation.ComponentScan;
@@ -10,15 +10,15 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @Import({
-    PersistenceContext.class,
-    SecurityConfig.class,
-    MethodSecurityConfig.class
+    SecurityConfig.class
+//    PersistenceContext.class,
+//    MethodSecurityConfig.class
 })
 @ComponentScan(basePackageClasses = {
-    UserDao.class,
-    UserManager.class,
-    StatefulUserServiceImpl.class,
-    UserService.class
+    StatefulUserService.class
+//    UserDao.class,
+//    UserManager.class,
+//    UserService.class
 })
 public class RootConfig {
 }
