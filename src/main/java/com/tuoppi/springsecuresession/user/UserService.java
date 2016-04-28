@@ -12,12 +12,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-@Service
-@Transactional
 public class UserService implements UserDetailsService {
     
-    @Autowired
     private UserManager users;
+
+    public UserService(UserManager users) {
+        this.users = users;
+    }
     
     @PostConstruct
     public void debugMessage() {
@@ -30,6 +31,8 @@ public class UserService implements UserDetailsService {
         UserProfile profile = users.find(name);
         if (profile == null)
             throw new UsernameNotFoundException(name);
+        
+        profile.getAuthorities().size(); // TEST
         
         return new User(profile.getUsername(), profile.getPassword(),
                 profile.getAuthorities());

@@ -15,30 +15,28 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Configuration
 @EnableWebSecurity
 @Import({
-    PersistenceContext.class,
-    MethodSecurityConfig.class
-})
-@ComponentScan(basePackageClasses = {
-    UserService.class
+    PersistenceContext.class
 })
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Autowired
-    private UserDetailsService userAuthenticationService;
+    private UserManager userManager;
     
-    @Bean // Why I need to declare this, shoudln't Spring produce it automatically?
-    @Override
-    public AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager();
+    @Bean
+    @Transactional
+    public UserDetailsService userAuthenticationManager() {
+        UserService service = new UserService(userManager);
+        return service;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userAuthenticationService);
+        auth.userDetailsService(userAuthenticationManager());
     }
 
     @Override

@@ -1,9 +1,12 @@
 package com.tuoppi.springsecuresession.config;
 
+import com.tuoppi.springsecuresession.dao.UserDao;
+import com.tuoppi.springsecuresession.service.UserManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
@@ -23,6 +26,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @PropertySource("classpath:derby.properties")
+@ComponentScan(basePackageClasses = {
+    UserDao.class,
+    UserManager.class
+})
 public class PersistenceContext {
     
     @Autowired
